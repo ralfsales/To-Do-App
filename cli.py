@@ -55,4 +55,4 @@ while True:
 
     print(" ")
 
-print("Bye!")
+print("Bye! See you next time")
