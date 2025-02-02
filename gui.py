@@ -7,3 +7,5 @@ add_button = sg.Button("Add")
 window = sg.Window('To-Do List', layout=[[label], [input_box, add_button]])
 window.read()
 window.close()
+
+print("That is all")
