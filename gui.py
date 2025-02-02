@@ -1,6 +1,13 @@
+import os.path
+
 import FreeSimpleGUI as sg
 import functions
 import time
+import os
+
+if not os.path.exists("todos.txt"):
+    with open("todos.txt",'w') as file:
+        pass
 
 sg.theme("SandyBeach")
 
@@ -8,19 +15,20 @@ clock = sg.Text('', key='clock')
 
 label = sg.Text("Type in a to-do")
 input_box = sg.InputText(tooltip="Enter todo", key='todo')
-add_button = sg.Button("Add")
+add_button = sg.Button("Add", mouseover_colors="Beige")
 list_box = sg.Listbox(values=functions.get_todos(), key='todos',
                       enable_events=True, size=[45, 15])
-edit_button = sg.Button("Edit")
-complete_button = sg.Button("Complete")
-exit_button = sg.Button("Exit")
+edit_button = sg.Button("Edit", mouseover_colors="Beige")
+complete_button = sg.Button("Complete", mouseover_colors="Beige")
+exit_button = sg.Button("Exit", mouseover_colors="Beige")
+clean_button = sg.Button("Clean", mouseover_colors="Beige")
 
 window = sg.Window('To-Do List',
                    layout=[[clock],
                         [label],
                         [input_box, add_button],
-                        [list_box, edit_button, complete_button],
-                        [exit_button]],
+                        [list_box],
+                        [edit_button, complete_button, clean_button, exit_button]],
                    font=('Helvetica',15))
 
 while True:
@@ -57,6 +65,12 @@ while True:
                 window['todo'].update(value='')
             except IndexError:
                 sg.popup("Please select an item first", font=("Helvetica", 15))
+
+        case "Clean":
+            confirm = sg.popup_yes_no("Are you sure you want to delete all tasks?", font=("Helvetica", 15))
+            if confirm == "Yes":
+                functions.write_todos([])
+                window['todos'].update(values=[])
 
         case "Exit":
             break
